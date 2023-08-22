@@ -36,13 +36,10 @@ X = df.drop(['co2'] ,axis =1)
 y = df['co2']
 
 scaler = StandardScaler()
-
 scaler.fit(X)
-
 X = scaler.transform(X)
 # Create the label encoder
 le = LabelEncoder()
-
 # Fit the label encoder to the target variable
 le.fit(y)
 
