@@ -32,32 +32,34 @@ from sklearn.linear_model import LinearRegression
 import joblib
 import streamlit as st
 
-model = joblib.load('model.pkl')
-maping = joblib.load('maping.pkl')
-scaler = joblib.load('scaler.pkl')
+#recuperation du model
+model = joblib.load('./pkl_data/model.pkl')
+maping = joblib.load('./pkl_data/maping.pkl')
+scaler = joblib.load('./pkl_data/scaler.pkl')
 
-# Define the range of choices for each variable
+
 masse_ordma_min_range = [825.0, 2760.0]
 masse_ordma_max_range = [825.0, 3094.0]
 carrosserie_choices = list(range(11))
 
-# Create the form
+# formulaire
 masse_ordma_min = st.slider('masse_ordma_min', masse_ordma_min_range[0], masse_ordma_min_range[1], value=masse_ordma_min_range[0])
 masse_ordma_max = st.slider('masse_ordma_max', masse_ordma_max_range[0], masse_ordma_max_range[1], value=masse_ordma_max_range[0])
 
 carrosserie = st.selectbox('Choisissez un type de carrosserie:', list(maping.values()))
 carrosserie = [k for k, v in maping.items() if v == carrosserie][0]
 
-# Show the selected values
-st.write('Selected values:')
-st.write('masse_ordma_min:', masse_ordma_min)
-st.write('masse_ordma_max:', masse_ordma_max)
-st.write('Carrosserie:', carrosserie)
 
+#IA stuff
 df_data=[[carrosserie,masse_ordma_min,masse_ordma_max]]
 df_data = scaler.transform(df_data)
 predictions = model.predict(df_data)
 predictions = model.predict(df_data)
 
-st.write('Co2         :',predictions)
+#affichage
+st.write('Selected values:')
+st.write('masse_ordma_min:', masse_ordma_min)
+st.write('masse_ordma_max:', masse_ordma_max)
+st.write('Carrosserie:', carrosserie)
+st.write('Co2:', predictions)
 
